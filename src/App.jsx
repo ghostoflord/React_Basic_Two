@@ -4,6 +4,7 @@ import {
   RouterProvider,
 } from "react-router-dom";
 import LoginPage from './pages/login/login';
+import RegisterPage from './pages/login/register';
 
 
 
@@ -26,6 +27,10 @@ export default function App() {
     {
       path: "/login",
       element: <LoginPage />,
+    },
+    {
+      path: "/register",
+      element: <RegisterPage />,
     },
   ]);
 
