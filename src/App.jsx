@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   createBrowserRouter,
   RouterProvider,
@@ -8,18 +8,30 @@ import RegisterPage from './pages/login/register';
 import { doGetAccountAction } from './redux/account/accountSlice';
 import { callFetchAccount } from './service/api';
 import { useDispatch } from 'react-redux';
+import ProtectedRoute from './component/protectedroute/protectedroute';
+import NotFound from './component/notfound/notfound';
+import Loading from './component/loading/loading';
+import AdminPage from './pages/admin/admin';
+import { useSelector } from "react-redux";
 
 const Layout = () => {
   return (
     <div className='layout-app'>
+      <Header />
+      <Outlet />
+      <Footer />
     </div>
   )
 }
 
 export default function App() {
   const dispatch = useDispatch();
+  const isAuthenticated = useSelector(state => state.account.isAuthenticated)
 
   const getAccount = async () => {
+    if (window.location.pathname === '/login'
+    )
+      return;
     const res = await callFetchAccount();
     if (res && res.data) {
       dispatch(doGetAccountAction(res.data))
@@ -34,8 +46,22 @@ export default function App() {
     {
       path: "/",
       element: <Layout />,
-      errorElement: <div>404 not found </div>,
+      errorElement: <NotFound />,
       children: [
+      ],
+    },
+
+    {
+      path: "/admin",
+      element: <Layout />,
+      errorElement: <NotFound />,
+      children: [
+        {
+          index: true, element:
+            <ProtectedRoute>
+              <AdminPage />
+            </ProtectedRoute>
+        },
       ],
     },
 
@@ -54,7 +80,13 @@ export default function App() {
 
   return (
     <>
-      <RouterProvider router={router} />
+      {isAuthenticated === true
+        || window.location.pathname === '/login'
+        ?
+        <RouterProvider router={router} />
+        :
+        <Loading />
+      }
     </>
   )
 }
