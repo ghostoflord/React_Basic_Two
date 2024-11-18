@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import {
   createBrowserRouter,
+  Outlet,
   RouterProvider,
 } from "react-router-dom";
 import LoginPage from './pages/login/login';
@@ -11,6 +12,12 @@ import { useDispatch } from 'react-redux';
 import NotFound from './component/notfound/notfound';
 import Loading from './component/loading/loading';
 import { useSelector } from "react-redux";
+import ContactPage from './pages/contact/contact';
+import BookPage from './pages/book/book';
+import Header from './pages/header/header';
+import Footer from './pages/footer/footer';
+import AdminPage from './pages/admin/admin';
+import ProtectedRoute from './component/ProtectedRoute';
 
 const Layout = () => {
   return (
@@ -30,9 +37,9 @@ const LayoutAdmin = () => {
   return (
     <div className='layout-app'>
       {isAdminRoute && userRole === 'ADMIN' && <Header />}
-      {/* <Header /> */}
+      <Header />
       <Outlet />
-      {/* <Footer /> */}
+      <Footer />
       {isAdminRoute && userRole === 'ADMIN' && <Footer />}
 
     </div>
@@ -66,39 +73,39 @@ export default function App() {
       path: "/",
       element: <Layout />,
       errorElement: <NotFound />,
-      // children: [
-      //   { index: true, element: <Home /> },
-      //   {
-      //     path: "contact",
-      //     element: <ContactPage />,
-      //   },
-      //   {
-      //     path: "book",
-      //     element: <BookPage />,
-      //   },
-      // ],
+      children: [
+        { index: true, element: <ContactPage /> },
+        {
+          path: "contact",
+          element: <ContactPage />,
+        },
+        {
+          path: "book",
+          element: <BookPage />,
+        },
+      ],
     },
 
     {
       path: "/admin",
       element: <LayoutAdmin />,
       errorElement: <NotFound />,
-      // children: [
-      //   {
-      //     index: true, element:
-      //       <ProtectedRoute>
-      //         <AdminPage />
-      //       </ProtectedRoute>
-      //   },
-      //   {
-      //     path: "user",
-      //     element: <ContactPage />,
-      //   },
-      //   {
-      //     path: "book",
-      //     element: <BookPage />,
-      //   },
-      // ],
+      children: [
+        {
+          index: true, element:
+            <ProtectedRoute>
+              <AdminPage />
+            </ProtectedRoute>
+        },
+        // {
+        //   path: "user",
+        //   element: <ContactPage />,
+        // },
+        // {
+        //   path: "book",
+        //   element: <BookPage />,
+        // },
+      ],
     },
 
 
