@@ -18,6 +18,10 @@ import Header from './pages/header/header';
 import Footer from './pages/footer/footer';
 import AdminPage from './pages/admin/admin';
 import ProtectedRoute from './component/ProtectedRoute';
+import LayoutAdmin from './pages/admin/layoutadmin';
+import './styles/reset.scss';
+import Home from './component/Home/home';
+
 
 const Layout = () => {
   return (
@@ -29,22 +33,22 @@ const Layout = () => {
   )
 }
 
-const LayoutAdmin = () => {
-  const isAdminRoute = window.location.pathname.startsWith('/admin');
-  const user = useSelector(state => state.account.user);
-  const userRole = user.role;
+// const LayoutAdmin = () => {
+//   const isAdminRoute = window.location.pathname.startsWith('/admin');
+//   const user = useSelector(state => state.account.user);
+//   const userRole = user.role;
 
-  return (
-    <div className='layout-app'>
-      {isAdminRoute && userRole === 'ADMIN' && <Header />}
-      <Header />
-      <Outlet />
-      <Footer />
-      {isAdminRoute && userRole === 'ADMIN' && <Footer />}
+//   return (
+//     <div className='layout-app'>
+//       {isAdminRoute && userRole === 'ADMIN' && <Header />}
+//       <Header />
+//       <Outlet />
+//       <Footer />
+//       {isAdminRoute && userRole === 'ADMIN' && <Footer />}
 
-    </div>
-  )
-}
+//     </div>
+//   )
+// }
 
 export default function App() {
   const dispatch = useDispatch();
@@ -74,7 +78,7 @@ export default function App() {
       element: <Layout />,
       errorElement: <NotFound />,
       children: [
-        { index: true, element: <ContactPage /> },
+        { index: true, element: <Home /> },
         {
           path: "contact",
           element: <ContactPage />,
@@ -97,15 +101,16 @@ export default function App() {
               <AdminPage />
             </ProtectedRoute>
         },
-        // {
-        //   path: "user",
-        //   element: <ContactPage />,
-        // },
-        // {
-        //   path: "book",
-        //   element: <BookPage />,
-        // },
+        {
+          path: "user",
+          element: <ContactPage />,
+        },
+        {
+          path: "book",
+          element: <BookPage />,
+        },
       ],
+
     },
 
 
