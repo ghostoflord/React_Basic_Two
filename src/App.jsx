@@ -18,7 +18,7 @@ import Header from './pages/header/header';
 import Footer from './pages/footer/footer';
 import AdminPage from './pages/admin/admin';
 import ProtectedRoute from './component/ProtectedRoute';
-import LayoutAdmin from './pages/admin/layoutadmin';
+import LayoutAdmin from './component/Admin/layoutadmin';
 import './styles/reset.scss';
 import Home from './component/Home/home';
 
@@ -41,7 +41,6 @@ export default function App() {
     if (
       window.location.pathname === '/login'
       || window.location.pathname === '/register'
-
     )
       return;
 
@@ -116,6 +115,7 @@ export default function App() {
           || window.location.pathname === '/login'
           || window.location.pathname === '/register'
           || window.location.pathname === '/'
+          || window.location.pathname === '/admin'
           ?
           <RouterProvider router={router} />
           :

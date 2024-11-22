@@ -45,7 +45,17 @@ instance.interceptors.response.use(function (response) {
             localStorage.setItem('access_token', access_token)
             return instance.request(error.config);
         }
+        if (
+            error.config && error.response
+            && +error.response.status === 400
+            && error.config.url === '/api/v1/auth/refresh'
+        ) {
+            if (window.location.pathname !== '/')
+                window.location.href = '/login';
+
+        }
     }
+
     return error?.response?.data ?? Promise.reject(error);
 });
 

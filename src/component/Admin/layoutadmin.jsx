@@ -17,6 +17,7 @@ import './layout.scss';
 import { useDispatch, useSelector } from 'react-redux';
 import { callLogout } from '../../service/api';
 import { doLogoutAction } from '../../redux/account/accountSlice';
+import UserTable from './User/UserTable';
 
 const { Content, Footer, Sider } = Layout;
 
@@ -33,7 +34,7 @@ const items = [
         children: [
             {
                 label: <Link to='/admin/user'>CRUD</Link>,
-                key: 'crud',
+                element: <UserTable />,
                 icon: <TeamOutlined />,
             },
             {

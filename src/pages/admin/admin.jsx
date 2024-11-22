@@ -1,7 +1,9 @@
+import UserTable from "../../component/Admin/User/UserTable";
+
 const AdminPage = () => {
     return (
         <>
-            admin dashboard
+            <UserTable></UserTable>
         </>
     )
 }
