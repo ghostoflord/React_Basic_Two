@@ -4,7 +4,7 @@ import InputSearch from './InputSreach';
 import { callFetchListUser } from '../../../service/api';
 import UserModalCreate from './UserModalCreate';
 import { CloudUploadOutlined, DeleteTwoTone, ExportOutlined, PlusOutlined, ReloadOutlined } from '@ant-design/icons';
-import UserViewDetail from './UserViewDetail.JSX';
+import UserDetail from './UserDetail';
 
 
 const UserTable = () => {
@@ -126,7 +126,7 @@ const UserTable = () => {
                 setOpenModalCreate={setOpenModalCreate}
             />
 
-            <UserViewDetail
+            <UserDetail
                 openViewDetail={openViewDetail}
                 setOpenViewDetail={setOpenViewDetail}
                 dataViewDetail={dataViewDetail}

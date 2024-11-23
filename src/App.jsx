@@ -115,7 +115,7 @@ export default function App() {
           || window.location.pathname === '/login'
           || window.location.pathname === '/register'
           || window.location.pathname === '/'
-          // || window.location.pathname === '/admin'
+          || window.location.pathname === '/admin'
           ?
           <RouterProvider router={router} />
           :

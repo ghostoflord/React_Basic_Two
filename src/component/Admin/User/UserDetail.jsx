@@ -1,6 +1,6 @@
 import { Badge, Descriptions, Drawer } from "antd";
 import moment from 'moment';
-const UserViewDetail = (props) => {
+const UserDetail = (props) => {
     const { openViewDetail, setOpenViewDetail, dataViewDetail, setDataViewDetail } = props;
 
     const onClose = () => {
@@ -39,4 +39,4 @@ const UserViewDetail = (props) => {
         </>
     )
 }
-export default UserViewDetail;
+export default UserDetail;
