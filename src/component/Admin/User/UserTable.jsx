@@ -2,6 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { Table, Row, Col, Popconfirm, Button, message, notification, Divider } from 'antd';
 import InputSearch from './InputSreach';
 import { callFetchListUser } from '../../../service/api';
+import UserModalCreate from './UserModalCreate';
+import { CloudUploadOutlined, DeleteTwoTone, ExportOutlined, PlusOutlined, ReloadOutlined } from '@ant-design/icons';
+import UserViewDetail from './UserViewDetail.JSX';
+
 
 const UserTable = () => {
     const [listUser, setListUser] = useState([]);
@@ -12,6 +16,9 @@ const UserTable = () => {
     const [filter, setFilter] = useState("");
     const [sortQuery, setSortQuery] = useState("");
 
+    const [openModalCreate, setOpenModalCreate] = useState(false);
+    const [openViewDetail, setOpenViewDetail] = useState(false);
+    const [dataViewDetail, setDataViewDetail] = useState(null);
 
     useEffect(() => {
         fetchUser();
@@ -41,7 +48,15 @@ const UserTable = () => {
         {
             title: 'ID',
             dataIndex: '_id',
-            sorter: true
+            sorter: true,
+            render: (text, record, index) => {
+                return (
+                    <a href='#' onClick={() => {
+                        setDataViewDetail(record);
+                        setOpenViewDetail(true);
+                    }}>{record._id}</a>
+                )
+            }
         },
         {
             title: 'Email',
@@ -105,6 +120,19 @@ const UserTable = () => {
                     />
                 </Col>
             </Row>
+
+            <UserModalCreate
+                openModalCreate={openModalCreate}
+                setOpenModalCreate={setOpenModalCreate}
+            />
+
+            <UserViewDetail
+                openViewDetail={openViewDetail}
+                setOpenViewDetail={setOpenViewDetail}
+                dataViewDetail={dataViewDetail}
+                setDataViewDetail={setDataViewDetail}
+            />
+
         </>
     )
 }
