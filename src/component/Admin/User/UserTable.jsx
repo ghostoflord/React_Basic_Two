@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Table, Row, Col } from 'antd';
+import { Table, Row, Col, Popconfirm, Button, message, notification, Divider } from 'antd';
 import InputSearch from './InputSreach';
 import { callFetchListUser } from '../../../service/api';
 
@@ -8,30 +8,33 @@ const UserTable = () => {
     const [current, setCurrent] = useState(1);
     const [pageSize, setPageSize] = useState(5);
     const [total, setTotal] = useState(0);
+    const [isloading, setIsLoading] = useState(false);
     useEffect(() => {
         fetchUser();
     }, [current, pageSize]);
 
 
-    const fetchUser = async () => {
-        const query = `current=${current}&pageSize=${pageSize}`;
+    const fetchUser = async (searchFilter) => {
+        setIsLoading(true);
+        let query = `current=${current}&pageSize=${pageSize}`;
+        if (searchFilter) {
+            query += `&${searchFilter}`
+        }
+
         const res = await callFetchListUser(query);
         if (res && res.data) {
             setListUser(res.data.result);
             setTotal(res.data.total);
         }
+        setIsLoading(false)
     }
+
 
     const columns = [
         {
             title: 'ID',
             dataIndex: '_id',
             sorter: true
-        },
-        {
-            title: 'FullName',
-            dataIndex: 'fullName',
-            sorter: true,
         },
         {
             title: 'Email',
@@ -44,25 +47,35 @@ const UserTable = () => {
             sorter: true
         },
         {
-            title: 'Role',
-            dataIndex: 'role',
-            sorter: true
-        },
+            title: 'Action',
+            render: (text, record, index) => {
+                return (
+                    <><button>Delete</button></>
+                )
+            }
+        }
+
     ];
 
     const onChange = (pagination, filters, sorter, extra) => {
 
     };
 
+    const handleSearch = (query) => {
+        fetchUser(query)
+    }
+
     return (
         <>
             <Row gutter={[20, 20]}>
                 <Col span={24}>
-                    <InputSearch />
+                    <InputSearch handleSearch={handleSearch} />
                 </Col>
                 <Col span={24}>
                     <Table
+                        // title={renderHeader}
                         className='def'
+                        loading={isloading}
                         columns={columns}
                         dataSource={listUser}
                         onChange={onChange}
