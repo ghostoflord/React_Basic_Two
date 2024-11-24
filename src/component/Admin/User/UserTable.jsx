@@ -5,7 +5,8 @@ import { callFetchListUser } from '../../../service/api';
 import UserModalCreate from './UserModalCreate';
 import { CloudUploadOutlined, DeleteTwoTone, ExportOutlined, PlusOutlined, ReloadOutlined } from '@ant-design/icons';
 import UserDetail from './UserDetail';
-
+import moment from 'moment/moment';
+import { FORMAT_DATE_DISPLAY } from "../../../util/constant";
 
 const UserTable = () => {
     const [listUser, setListUser] = useState([]);
@@ -69,10 +70,33 @@ const UserTable = () => {
             sorter: true
         },
         {
+            title: 'Ngày cập nhật',
+            dataIndex: 'updatedAt',
+            sorter: true,
+            render: (text, record, index) => {
+                return (
+                    <>{moment(record.updatedAt).format(FORMAT_DATE_DISPLAY)}</>
+                )
+            }
+
+        },
+
+        {
             title: 'Action',
             render: (text, record, index) => {
                 return (
-                    <><button>Delete</button></>
+                    <Popconfirm
+                        placement="leftTop"
+                        title={"Xác nhận xóa user"}
+                        description={"Bạn có chắc chắn muốn xóa user này ?"}
+                        onConfirm={() => handleDeleteUser(record._id)}
+                        okText="Xác nhận"
+                        cancelText="Hủy"
+                    >
+                        <span style={{ cursor: "pointer" }}>
+                            <DeleteTwoTone twoToneColor="#ff4d4f" />
+                        </span>
+                    </Popconfirm>
                 )
             }
         }
@@ -85,6 +109,39 @@ const UserTable = () => {
             setSortQuery(q);
         }
     };
+
+    const renderHeader = () => {
+        return (
+            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                <span>Table List Users</span>
+                <span style={{ display: 'flex', gap: 15 }}>
+                    <Button
+                        icon={<ExportOutlined />}
+                        type="primary"
+                    >Export</Button>
+
+                    <Button
+                        icon={<CloudUploadOutlined />}
+                        type="primary"
+                    >Import</Button>
+
+                    <Button
+                        icon={<PlusOutlined />}
+                        type="primary"
+                        onClick={() => setOpenModalCreate(true)}
+                    >Thêm mới</Button>
+                    <Button type='ghost' onClick={() => {
+                        setFilter("");
+                        setSortQuery("")
+                    }}>
+                        <ReloadOutlined />
+                    </Button>
+
+
+                </span>
+            </div>
+        )
+    }
 
     const handleSearch = (query) => {
         setFilter(query);
@@ -103,6 +160,7 @@ const UserTable = () => {
                 <Col span={24}>
                     <Table
                         className='def'
+                        title={renderHeader}
                         loading={isloading}
                         columns={columns}
                         dataSource={listUser}
@@ -124,6 +182,7 @@ const UserTable = () => {
             <UserModalCreate
                 openModalCreate={openModalCreate}
                 setOpenModalCreate={setOpenModalCreate}
+                fetchUser={fetchUser}
             />
 
             <UserDetail

@@ -1,5 +1,7 @@
 import { Badge, Descriptions, Drawer } from "antd";
 import moment from 'moment';
+import { FORMAT_DATE_DISPLAY } from "../../../util/constant";
+
 const UserDetail = (props) => {
     const { openViewDetail, setOpenViewDetail, dataViewDetail, setDataViewDetail } = props;
 
@@ -29,10 +31,10 @@ const UserDetail = (props) => {
                         <Badge status="processing" text={dataViewDetail?.role} />
                     </Descriptions.Item>
                     <Descriptions.Item label="Created At">
-                        {moment(dataViewDetail?.createdAt).format('DD-MM-YYYY hh:mm:ss')}
+                        {moment(dataViewDetail?.createdAt).format(FORMAT_DATE_DISPLAY)}
                     </Descriptions.Item>
                     <Descriptions.Item label="Updated At">
-                        {moment(dataViewDetail?.updatedAt).format('DD-MM-YYYY hh:mm:ss')}
+                        {moment(dataViewDetail?.updatedAt).format(FORMAT_DATE_DISPLAY)}
                     </Descriptions.Item>
                 </Descriptions>
             </Drawer>
