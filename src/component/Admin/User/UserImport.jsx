@@ -4,6 +4,7 @@ import { message, Upload } from 'antd';
 import * as XLSX from 'xlsx';
 import { useState } from "react";
 import { callBulkCreateUser } from "../../../service/api";
+import templateFile from './template.xlsx?url';
 
 const { Dragger } = Upload;
 const UserImport = (props) => {
@@ -15,6 +16,7 @@ const UserImport = (props) => {
             onSuccess("ok");
         }, 1000);
     };
+    
 
 
     const propsUpload = {
@@ -103,7 +105,8 @@ const UserImport = (props) => {
                     </p>
                     <p className="ant-upload-text">Click or drag file to this area to upload</p>
                     <p className="ant-upload-hint">
-                        Support for a single upload. Only accept .csv, .xls, .xlsx
+                        Support for a single upload. Only accept .csv, .xls, .xlsx . or
+                        &nbsp;  <a onClick={e => e.stopPropagation()} href={templateFile} download>Download Sample File</a>
                     </p>
                 </Dragger>
                 <div style={{ paddingTop: 20 }}>

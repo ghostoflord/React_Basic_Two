@@ -8,6 +8,7 @@ import UserDetail from './UserDetail';
 import moment from 'moment/moment';
 import { FORMAT_DATE_DISPLAY } from "../../../util/constant";
 import UserImport from './UserImport';
+import * as XLSX from 'xlsx';
 
 const UserTable = () => {
     const [listUser, setListUser] = useState([]);
@@ -113,6 +114,7 @@ const UserTable = () => {
         }
     };
 
+
     const renderHeader = () => {
         return (
             <div style={{ display: 'flex', justifyContent: 'space-between' }}>
@@ -121,6 +123,7 @@ const UserTable = () => {
                     <Button
                         icon={<ExportOutlined />}
                         type="primary"
+                        onClick={() => handleExportData()}
                     >Export</Button>
 
                     <Button
@@ -151,6 +154,16 @@ const UserTable = () => {
         setFilter(query);
     }
 
+    const handleExportData = () => {
+        if (listUser.length > 0) {
+            const worksheet = XLSX.utils.json_to_sheet(listUser);
+            const workbook = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1");
+            XLSX.writeFile(workbook, "ExportUser.csv");
+        }
+
+    };
+
     return (
         <>
             <Row gutter={[20, 20]}>
@@ -175,8 +188,8 @@ const UserTable = () => {
                                 current: current,
                                 pageSize: pageSize,
                                 showSizeChanger: true,
-                                total: total
-
+                                total: total,
+                                showTotal: (total, range) => { return (<div> {range[0]}-{range[1]} trên {total} rows</div>) }
                             }
                         }
                     />
