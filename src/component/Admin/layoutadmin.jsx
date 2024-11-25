@@ -33,7 +33,7 @@ const items = [
         icon: <UserOutlined />,
         children: [
             {
-                label: <Link to='/admin/user'>CRUD</Link>,
+                label: <Link to='/admin'>CRUD</Link>,
                 element: <UserTable />,
                 icon: <TeamOutlined />,
             },
