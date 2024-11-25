@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Table, Row, Col, Popconfirm, Button, message, notification, Divider } from 'antd';
 import InputSearch from './InputSreach';
-import { callFetchListUser } from '../../../service/api';
+import { callDeleteUser, callFetchListUser } from '../../../service/api';
 import UserModalCreate from './UserModalCreate';
 import { CloudUploadOutlined, DeleteTwoTone, EditTwoTone, ExportOutlined, PlusOutlined, ReloadOutlined } from '@ant-design/icons';
 import UserDetail from './UserDetail';
@@ -9,7 +9,7 @@ import moment from 'moment/moment';
 import { FORMAT_DATE_DISPLAY } from "../../../util/constant";
 import UserImport from './UserImport';
 import * as XLSX from 'xlsx';
-import UserModalUpdate from './UserModelUpdtae';
+import UserModalUpdate from './UserModelUpdate';
 
 
 const UserTable = () => {
@@ -129,6 +129,20 @@ const UserTable = () => {
             setSortQuery(q);
         }
     };
+
+    const handleDeleteUser = async (userId) => {
+        const res = await callDeleteUser(userId);
+        if (res && res.data) {
+            message.success('Xóa user thành công');
+            fetchUser();
+        } else {
+            notification.error({
+                message: 'Có lỗi xảy ra',
+                description: res.message
+            });
+        }
+    };
+
 
 
     const renderHeader = () => {
