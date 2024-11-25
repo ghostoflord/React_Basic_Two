@@ -3,12 +3,14 @@ import { Table, Row, Col, Popconfirm, Button, message, notification, Divider } f
 import InputSearch from './InputSreach';
 import { callFetchListUser } from '../../../service/api';
 import UserModalCreate from './UserModalCreate';
-import { CloudUploadOutlined, DeleteTwoTone, ExportOutlined, PlusOutlined, ReloadOutlined } from '@ant-design/icons';
+import { CloudUploadOutlined, DeleteTwoTone, EditTwoTone, ExportOutlined, PlusOutlined, ReloadOutlined } from '@ant-design/icons';
 import UserDetail from './UserDetail';
 import moment from 'moment/moment';
 import { FORMAT_DATE_DISPLAY } from "../../../util/constant";
 import UserImport from './UserImport';
 import * as XLSX from 'xlsx';
+import UserModalUpdate from './UserModelUpdtae';
+
 
 const UserTable = () => {
     const [listUser, setListUser] = useState([]);
@@ -24,6 +26,9 @@ const UserTable = () => {
     const [dataViewDetail, setDataViewDetail] = useState(null);
 
     const [openModalImport, setOpenModalImport] = useState(false);
+
+    const [openModalUpdate, setOpenModalUpdate] = useState(false);
+    const [dataUpdate, setDataUpdate] = useState(null);
 
     useEffect(() => {
         fetchUser();
@@ -89,18 +94,29 @@ const UserTable = () => {
             title: 'Action',
             render: (text, record, index) => {
                 return (
-                    <Popconfirm
-                        placement="leftTop"
-                        title={"Xác nhận xóa user"}
-                        description={"Bạn có chắc chắn muốn xóa user này ?"}
-                        onConfirm={() => handleDeleteUser(record._id)}
-                        okText="Xác nhận"
-                        cancelText="Hủy"
-                    >
-                        <span style={{ cursor: "pointer" }}>
-                            <DeleteTwoTone twoToneColor="#ff4d4f" />
-                        </span>
-                    </Popconfirm>
+                    <>
+
+                        <Popconfirm
+                            placement="leftTop"
+                            title={"Xác nhận xóa user"}
+                            description={"Bạn có chắc chắn muốn xóa user này ?"}
+                            onConfirm={() => handleDeleteUser(record._id)}
+                            okText="Xác nhận"
+                            cancelText="Hủy"
+                        >
+                            <span style={{ cursor: "pointer", margin: "0 20px" }}>
+                                <DeleteTwoTone twoToneColor="#ff4d4f" />
+                            </span>
+                        </Popconfirm>
+
+                        <EditTwoTone
+                            twoToneColor="#f57800" style={{ cursor: "pointer" }}
+                            onClick={() => {
+                                setOpenModalUpdate(true);
+                                setDataUpdate(record);
+                            }}
+                        />
+                    </>
                 )
             }
         }
@@ -212,6 +228,14 @@ const UserTable = () => {
             <UserImport
                 openModalImport={openModalImport}
                 setOpenModalImport={setOpenModalImport}
+                fetchUser={fetchUser}
+            />
+
+            <UserModalUpdate
+                openModalUpdate={openModalUpdate}
+                setOpenModalUpdate={setOpenModalUpdate}
+                dataUpdate={dataUpdate}
+                setDataUpdate={setDataUpdate}
                 fetchUser={fetchUser}
             />
         </>
