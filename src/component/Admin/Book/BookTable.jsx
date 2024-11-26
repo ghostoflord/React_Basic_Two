@@ -1,76 +1,125 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Table } from 'antd';
+import { callFetchListBook } from '../../../service/api';
 
 
 const BookTable = () => {
+    const [listBook, setListBook] = useState([]);
+    const [current, setCurrent] = useState(1);
+    const [pageSize, setPageSize] = useState(5);
+    const [filter, setFilter] = useState("");
+    const [sortQuery, setSortQuery] = useState("");
+    const [total, setTotal] = useState(0);
+    useEffect(() => {
+        fetchBook();
+    }, []);
+
+    const fetchBook = async () => {
+        let query = `current=${current}&pageSize=${pageSize}`;
+        if (filter) {
+            query += `&${filter}`;
+        }
+        if (sortQuery) {
+            query += `&${sortQuery}`;
+        }
+        const res = await callFetchListBook(query);
+        if (res && res.data) {
+            setListBook(res.data.result);
+            setTotal(res.data.total);
+        }
+    }
+
     const columns = [
         {
-            title: 'Name',
-            dataIndex: 'name',
+            title: 'ID',
+            dataIndex: '_id',
+            sorter: true,
+            // render: (text, record, index) => {
+            //     return (
+            //         <a href='#' onClick={() => {
+            //             setDataViewDetail(record);
+            //             setOpenViewDetail(true);
+            //         }}>{record._id}</a>
+            //     )
+            // }
         },
         {
-            title: 'Chinese Score',
-            dataIndex: 'chinese',
-            sorter: {
-                compare: (a, b) => a.chinese - b.chinese,
-                multiple: 3,
-            },
+            title: 'Tiêu Đề',
+            dataIndex: 'mainText',
+            sorter: true
         },
         {
-            title: 'Math Score',
-            dataIndex: 'math',
-            sorter: {
-                compare: (a, b) => a.math - b.math,
-                multiple: 2,
-            },
+            title: 'Tác Giả',
+            dataIndex: 'author',
+            sorter: true
         },
         {
-            title: 'English Score',
-            dataIndex: 'english',
-            sorter: {
-                compare: (a, b) => a.english - b.english,
-                multiple: 1,
-            },
+            title: 'Giá cả',
+            dataIndex: 'price',
+            sorter: true,
         },
-    ];
-    const data = [
+
         {
-            key: '1',
-            name: 'John Brown',
-            chinese: 98,
-            math: 60,
-            english: 70,
+            title: 'đã bán',
+            dataIndex: 'sold',
+            sorter: true,
         },
+
         {
-            key: '2',
-            name: 'Jim Green',
-            chinese: 98,
-            math: 66,
-            english: 89,
+            title: 'số lượng',
+            dataIndex: 'quantity',
+            sorter: true,
         },
+
         {
-            key: '3',
-            name: 'Joe Black',
-            chinese: 98,
-            math: 90,
-            english: 70,
+            title: 'loại sách',
+            dataIndex: 'category',
+            sorter: true,
         },
-        {
-            key: '4',
-            name: 'Jim Red',
-            chinese: 88,
-            math: 99,
-            english: 89,
-        },
+
+        // {
+        //     title: 'Action',
+        //     render: (text, record, index) => {
+        //         return (
+        //             <>
+
+        //                 <Popconfirm>
+        //                     <span style={{ cursor: "pointer", margin: "0 20px" }}>
+        //                         <DeleteTwoTone twoToneColor="#ff4d4f" />
+        //                     </span>
+        //                 </Popconfirm>
+
+        //                 <EditTwoTone
+        //                     twoToneColor="#f57800" style={{ cursor: "pointer" }}
+        //                 />
+        //             </>
+        //         )
+        //     }
+        // }
+
     ];
     const onChange = (pagination, filters, sorter, extra) => {
         console.log('params', pagination, filters, sorter, extra);
     };
 
-    const ViewTable = () => <Table columns={columns} dataSource={data} onChange={onChange} />;
     return (
         <>
-        <ViewTable></ViewTable>
+            <Table
+                className='def'
+                columns={columns}
+                dataSource={listBook}
+                onChange={onChange}
+                rowKey="_id"
+            //     pagination={
+            //         {
+            //             current: current,
+            //             pageSize: pageSize,
+            //             showSizeChanger: true,
+            //             total: total,
+            //             showTotal: (total, range) => { return (<div> {range[0]}-{range[1]} trên {total} rows</div>) }
+            //         }
+            //     }
+            />
         </>
     )
 
