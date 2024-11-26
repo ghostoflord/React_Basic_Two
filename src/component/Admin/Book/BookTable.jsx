@@ -11,7 +11,7 @@ const BookTable = () => {
     const [current, setCurrent] = useState(1);
     const [pageSize, setPageSize] = useState(5);
     const [filter, setFilter] = useState("");
-    const [sortQuery, setSortQuery] = useState("");
+    const [sortQuery, setSortQuery] = useState("sort=-updatedAt");
     const [total, setTotal] = useState(0);
 
     const [openModalCreate, setOpenModalCreate] = useState(false);

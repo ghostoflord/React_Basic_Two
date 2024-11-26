@@ -70,8 +70,8 @@ const BookDetail = (props) => {
                     <Descriptions.Item label="Tiêu Đề">{dataViewDetail?.mainText}</Descriptions.Item>
                     <Descriptions.Item label="Tác Giả">{dataViewDetail?.author}</Descriptions.Item>
                     <Descriptions.Item label="Giá tiền">{new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(dataViewDetail?.price ?? 0)}</Descriptions.Item>
-                    <Descriptions.Item label="Đã Bán">{dataViewDetail?.sold}</Descriptions.Item>
-                    <Descriptions.Item label="Số Lượng">{dataViewDetail?.quantity}</Descriptions.Item>
+                    <Descriptions.Item label="Đã Bán">{dataViewDetail?.sold ?? 0}</Descriptions.Item>
+                    <Descriptions.Item label="Số Lượng">{dataViewDetail?.quantity ?? 0}</Descriptions.Item>
                     <Descriptions.Item label="Loại Sách" span={2}>{dataViewDetail?.category}</Descriptions.Item>
                     <Descriptions.Item label="Created At">
                         {moment(dataViewDetail?.createdAt).format(FORMAT_DATE_DISPLAY)}
