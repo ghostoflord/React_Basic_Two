@@ -44,3 +44,7 @@ export const callFetchListBook = (query) => {
     return axios.get(`/api/v1/book?${query}`)
 }
 
+export const callCreateBook = (thumbnail, mainText, author, price, sold, quantity, category) => {
+    return axios.post('/api/v1/book', { thumbnail, mainText, author, price, sold, quantity, category })
+}
+

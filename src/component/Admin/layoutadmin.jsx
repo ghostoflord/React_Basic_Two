@@ -18,6 +18,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { callLogout } from '../../service/api';
 import { doLogoutAction } from '../../redux/account/accountSlice';
 import UserTable from './User/UserTable';
+import BookTable from './Book/BookTable';
 
 const { Content, Footer, Sider } = Layout;
 
@@ -46,7 +47,7 @@ const items = [
     },
     {
         label: <Link to='/admin/book'>Manage Books</Link>,
-        key: 'book',
+        element: <BookTable />,
         icon: <ExceptionOutlined />
     },
     {
