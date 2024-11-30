@@ -4,6 +4,8 @@ import { CloudUploadOutlined, DeleteTwoTone, EditTwoTone, ExportOutlined, PlusOu
 import { callDeleteBook, callFetchListBook } from '../../../service/api';
 import BookModalCreate from './BookModelCreate';
 import BookDetail from './BookDetail';
+import UserModalUpdate from '../User/UserModelUpdate';
+import BookModalUpdate from './BookModelUpdate';
 
 
 const BookTable = () => {
@@ -14,9 +16,15 @@ const BookTable = () => {
     const [sortQuery, setSortQuery] = useState("sort=-updatedAt");
     const [total, setTotal] = useState(0);
 
+    // view detail
     const [openModalCreate, setOpenModalCreate] = useState(false);
     const [openViewDetail, setOpenViewDetail] = useState(false);
     const [dataViewDetail, setDataViewDetail] = useState(null);
+
+    //update 
+    const [openModalUpdate, setOpenModalUpdate] = useState(false);
+    const [dataUpdate, setDataUpdate] = useState(null);
+
     useEffect(() => {
         fetchBook();
     }, [current, pageSize, filter, sortQuery]);
@@ -209,6 +217,13 @@ const BookTable = () => {
                 setOpenViewDetail={setOpenViewDetail}
                 dataViewDetail={dataViewDetail}
                 setDataViewDetail={setDataViewDetail}
+            />
+            <BookModalUpdate
+                openModalUpdate={openModalUpdate}
+                setOpenModalUpdate={setOpenModalUpdate}
+                dataUpdate={dataUpdate}
+                setDataUpdate={setDataUpdate}
+                fetchBook={fetchBook}
             />
         </>
     )

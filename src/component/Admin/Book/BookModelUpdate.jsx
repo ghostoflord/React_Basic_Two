@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Button, Divider, Form, Input, message, Modal, notification } from 'antd';
-import { callUpdateBook, callUpdateUser } from '../../../service/api';
+import { callUpdateBook } from '../../../service/api';
 
 
 const BookModalUpdate = (props) => {
@@ -11,13 +11,13 @@ const BookModalUpdate = (props) => {
 
 
     const onFinish = async (values) => {
-        const { fullName, _id, phone } = values;
+        const { _id, thumbnail, slider, mainText, author, price, sold, quantity, category } = values;
         setIsSubmit(true)
-        const res = await callUpdateBook(_id, fullName, phone);
+        const res = await callUpdateBook(_id, thumbnail, slider, mainText, author, price, sold, quantity, category);
         if (res && res.data) {
-            message.success('Cập nhật user thành công');
+            message.success('Cập nhật book thành công');
             setOpenModalUpdate(false);
-            await props.fetchUser()
+            await props.fetchBook()
         } else {
             notification.error({
                 message: 'Đã có lỗi xảy ra',
@@ -35,7 +35,7 @@ const BookModalUpdate = (props) => {
         <>
 
             <Modal
-                title="Cập nhật người dùng"
+                title="Cập nhật book"
                 open={openModalUpdate}
                 onOk={() => { form.submit() }}
                 onCancel={() => {
@@ -68,28 +68,52 @@ const BookModalUpdate = (props) => {
 
                     <Form.Item
                         labelCol={{ span: 24 }}
-                        label="Tên hiển thị"
-                        name="fullName"
-                        rules={[{ required: true, message: 'Vui lòng nhập tên hiển thị!' }]}
+                        label="Tiêu đề"
+                        name="mainText"
+                        rules={[{ required: true, message: 'Vui lòng nhập tiêu đề!' }]}
                     >
                         <Input />
                     </Form.Item>
 
                     <Form.Item
                         labelCol={{ span: 24 }}
-                        label="Email"
-                        name="email"
-                        rules={[{ required: true, message: 'Vui lòng nhập email!' }]}
+                        label="Tác giả"
+                        name="author"
+                        rules={[{ required: true, message: 'Vui lòng nhập tác giả!' }]}
                     >
-                        <Input disabled />
+                        <Input />
                     </Form.Item>
                     <Form.Item
                         labelCol={{ span: 24 }}
-                        label="Số điện thoại"
-                        name="phone"
-                        rules={[{ required: true, message: 'Vui lòng nhập số điện thoại!' }]}
+                        label="Giá Tiền"
+                        name="price"
+                        rules={[{ required: true, message: 'Vui lòng nhập giá tiền!' }]}
                     >
                         <Input />
+                    </Form.Item><Form.Item
+                        labelCol={{ span: 24 }}
+                        label="Số Lượng Đã Bán"
+                        name="sold"
+                        rules={[{ required: true, message: 'Vui lòng nhập số lượng đã bán!' }]}
+                    >
+                        <Input />
+                    </Form.Item>
+                    <Form.Item
+                        labelCol={{ span: 24 }}
+                        label="Số Lượng"
+                        name="quantity"
+                        rules={[{ required: true, message: 'Vui lòng nhập số lượng!' }]}
+                    >
+                        <Input />
+                    </Form.Item>
+
+                    <Form.Item
+                        labelCol={{ span: 24 }}
+                        label="Thể Loại"
+                        name="category"
+                        rules={[{ required: true, message: 'Vui lòng nhập thể loại!' }]}
+                    >
+                        <Input disabled />
                     </Form.Item>
                 </Form>
             </Modal>
