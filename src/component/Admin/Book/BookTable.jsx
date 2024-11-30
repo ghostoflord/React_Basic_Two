@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Table, Row, Col, Popconfirm, Button, message, notification, Divider } from 'antd';
 import { CloudUploadOutlined, DeleteTwoTone, EditTwoTone, ExportOutlined, PlusOutlined, ReloadOutlined } from '@ant-design/icons';
-import { callFetchListBook } from '../../../service/api';
+import { callDeleteBook, callFetchListBook } from '../../../service/api';
 import BookModalCreate from './BookModelCreate';
 import BookDetail from './BookDetail';
 
@@ -35,6 +35,7 @@ const BookTable = () => {
             setTotal(res.data.total);
         }
     }
+
 
     const columns = [
         {
@@ -90,7 +91,14 @@ const BookTable = () => {
                 return (
                     <>
 
-                        <Popconfirm>
+                        <Popconfirm
+                            placement="leftTop"
+                            title={"Xác nhận xóa book"}
+                            description={"Bạn có chắc chắn muốn xóa book này ?"}
+                            onConfirm={() => handleDeleteBook(record._id)}
+                            okText="Xác nhận"
+                            cancelText="Hủy"
+                        >
                             <span style={{ cursor: "pointer", margin: "0 20px" }}>
                                 <DeleteTwoTone twoToneColor="#ff4d4f" />
                             </span>
@@ -98,6 +106,10 @@ const BookTable = () => {
 
                         <EditTwoTone
                             twoToneColor="#f57800" style={{ cursor: "pointer" }}
+                            onClick={() => {
+                                setOpenModalUpdate(true);
+                                setDataUpdate(record);
+                            }}
                         />
                     </>
                 )
@@ -105,6 +117,20 @@ const BookTable = () => {
         }
 
     ];
+
+
+    const handleDeleteBook = async (bookId) => {
+        const res = await callDeleteBook(bookId);
+        if (res && res.data) {
+            message.success('Xóa user thành công');
+            fetchBook();
+        } else {
+            notification.error({
+                message: 'Có lỗi xảy ra',
+                description: res.message
+            });
+        }
+    };
 
     const renderHeader = () => {
         return (
