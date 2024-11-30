@@ -227,7 +227,7 @@ const BookModalCreate = (props) => {
                                         defaultValue={null}
                                         showSearch
                                         allowClear
-                                        //  onChange={handleChange}
+                                        // onChange={handleChange}
                                         options={listCategory}
                                     />
                                 </Form.Item>

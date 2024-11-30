@@ -66,6 +66,10 @@ export const callUploadBookImg = (fileImg) => {
     });
 }
 
+export const callUpdateBook = (_id, fullName, phone) => {
+    return axios.put('/api/v1/user', { _id, fullName, phone })
+}
+
 export const callDeleteBook = (id) => {
     return axios.delete(`/api/v1/book/${id}`)
 }
