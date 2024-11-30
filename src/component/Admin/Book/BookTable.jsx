@@ -4,9 +4,9 @@ import { CloudUploadOutlined, DeleteTwoTone, EditTwoTone, ExportOutlined, PlusOu
 import { callDeleteBook, callFetchListBook } from '../../../service/api';
 import BookModalCreate from './BookModelCreate';
 import BookDetail from './BookDetail';
-import UserModalUpdate from '../User/UserModelUpdate';
 import BookModalUpdate from './BookModelUpdate';
-
+import BookImport from './BookImport';
+import * as XLSX from 'xlsx';
 
 const BookTable = () => {
     const [listBook, setListBook] = useState([]);
@@ -24,6 +24,9 @@ const BookTable = () => {
     //update 
     const [openModalUpdate, setOpenModalUpdate] = useState(false);
     const [dataUpdate, setDataUpdate] = useState(null);
+
+    //import
+    const [openModalImport, setOpenModalImport] = useState(false);
 
     useEffect(() => {
         fetchBook();
@@ -148,13 +151,14 @@ const BookTable = () => {
                     <Button
                         icon={<ExportOutlined />}
                         type="primary"
-                    // onClick={() => handleExportData()}
+                        onClick={() => handleExportData()}
                     >Export</Button>
+
 
                     <Button
                         icon={<CloudUploadOutlined />}
                         type="primary"
-                    // onClick={() => setOpenModalImport(true)}
+                        onClick={() => setOpenModalImport(true)}
                     >Import</Button>
 
                     <Button
@@ -173,6 +177,15 @@ const BookTable = () => {
         )
     }
 
+    const handleExportData = () => {
+        if (listBook.length > 0) {
+            const worksheet = XLSX.utils.json_to_sheet(listBook);
+            const workbook = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1");
+            XLSX.writeFile(workbook, "ExportBook.csv");
+        }
+
+    };
     const onChange = (pagination, filters, sorter, extra) => {
         console.log('params', pagination, filters, sorter, extra);
     };
@@ -223,6 +236,11 @@ const BookTable = () => {
                 setOpenModalUpdate={setOpenModalUpdate}
                 dataUpdate={dataUpdate}
                 setDataUpdate={setDataUpdate}
+                fetchBook={fetchBook}
+            />
+            <BookImport
+                openModalImport={openModalImport}
+                setOpenModalImport={setOpenModalImport}
                 fetchBook={fetchBook}
             />
         </>
