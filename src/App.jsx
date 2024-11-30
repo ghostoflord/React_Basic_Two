@@ -28,7 +28,7 @@ const Layout = () => {
     <div className='layout-app'>
       <Header />
       <Outlet />
-      <Footer />
+
     </div>
   )
 }
