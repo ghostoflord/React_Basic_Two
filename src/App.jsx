@@ -21,6 +21,7 @@ import ProtectedRoute from './component/ProtectedRoute';
 import LayoutAdmin from './component/Admin/layoutadmin';
 import './styles/reset.scss';
 import Home from './component/Home/home';
+import BookTable from './component/Admin/Book/BookTable';
 
 
 const Layout = () => {
@@ -66,7 +67,7 @@ export default function App() {
           element: <ContactPage />,
         },
         {
-          path: "book",
+          path: "book/:slug",
           element: <BookPage />,
         },
       ],
@@ -89,7 +90,10 @@ export default function App() {
         },
         {
           path: "book",
-          element: <BookPage />,
+          element:
+            <ProtectedRoute>
+              <BookTable />
+            </ProtectedRoute>,
         },
       ],
 
