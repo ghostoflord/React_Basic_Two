@@ -22,7 +22,7 @@ import LayoutAdmin from './component/Admin/layoutadmin';
 import './styles/reset.scss';
 import Home from './component/Home/home';
 import BookTable from './component/Admin/Book/BookTable';
-
+import OrderPage from './pages/order/order';
 
 const Layout = () => {
   return (
@@ -70,6 +70,11 @@ export default function App() {
           path: "book/:slug",
           element: <BookPage />,
         },
+        {
+          path: "order",
+          element: <OrderPage />,
+        },
+
       ],
     },
 
@@ -95,6 +100,7 @@ export default function App() {
               <BookTable />
             </ProtectedRoute>,
         },
+
       ],
 
     },
