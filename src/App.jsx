@@ -23,6 +23,7 @@ import './styles/reset.scss';
 import Home from './component/Home/home';
 import BookTable from './component/Admin/Book/BookTable';
 import OrderPage from './pages/order/order';
+import ViewDetail from './component/Book/ViewDetail';
 
 const Layout = () => {
   return (
@@ -98,6 +99,13 @@ export default function App() {
           element:
             <ProtectedRoute>
               <BookTable />
+            </ProtectedRoute>,
+        },
+        {
+          path: "order",
+          element:
+            <ProtectedRoute>
+              <ViewDetail />
             </ProtectedRoute>,
         },
 
