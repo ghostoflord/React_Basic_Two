@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
 import { doDeleteItemCartAction, doPlaceOrderAction, doUpdateCartAction } from '../../redux/order/orderSlice';
 import { Input } from 'antd';
-import { callPlaceOrder } from '../../services/api';
+import { callPlaceOrder } from '../../service/api';
 const { TextArea } = Input;
 
 const Payment = (props) => {
