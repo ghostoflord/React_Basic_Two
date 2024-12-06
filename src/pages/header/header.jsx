@@ -11,6 +11,8 @@ import { Dropdown, Space } from 'antd';
 import { useNavigate } from 'react-router';
 import './header.scss';
 import { Link } from 'react-router-dom';
+import ManageAccount from '../../component/Account/ManageAccount';
+
 
 
 const Header = () => {
@@ -19,7 +21,8 @@ const Header = () => {
     const user = useSelector(state => state.account.user);
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    const carts = useSelector(state => state.order.carts)
+    const carts = useSelector(state => state.order.carts);
+    const [showManageAccount, setShowManageAccount] = useState(false);
 
     const handleLogout = async () => {
         const res = await callLogout();
@@ -32,7 +35,10 @@ const Header = () => {
 
     let items = [
         {
-            label: <label style={{ cursor: 'pointer' }}>Quản lý tài khoản</label>,
+            label: <label
+                style={{ cursor: 'pointer' }}
+                onClick={() => setShowManageAccount(true)}
+            >Quản lý tài khoản</label>,
             key: 'account',
         },
         {
@@ -148,6 +154,10 @@ const Header = () => {
                 <p>Đăng xuất</p>
                 <Divider />
             </Drawer>
+            <ManageAccount
+                isModalOpen={showManageAccount}
+                setIsModalOpen={setShowManageAccount}
+            />
         </>
     )
 };
