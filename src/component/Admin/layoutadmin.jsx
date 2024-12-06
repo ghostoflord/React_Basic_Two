@@ -38,11 +38,6 @@ const items = [
                 element: <UserTable />,
                 icon: <TeamOutlined />,
             },
-            {
-                label: 'Files1',
-                key: 'file1',
-                icon: <TeamOutlined />,
-            }
         ]
     },
     {

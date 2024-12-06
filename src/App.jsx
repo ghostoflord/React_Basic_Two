@@ -24,6 +24,7 @@ import Home from './component/Home/home';
 import BookTable from './component/Admin/Book/BookTable';
 import OrderPage from './pages/order/order';
 import ViewDetail from './component/Book/ViewDetail';
+import AdminOrderPage from './pages/admin/order/AdminOrderPage';
 
 const Layout = () => {
   return (
@@ -105,10 +106,10 @@ export default function App() {
           path: "order",
           element:
             <ProtectedRoute>
-              <ViewDetail />
-            </ProtectedRoute>,
+              <AdminOrderPage />
+            </ProtectedRoute>
+          ,
         },
-
       ],
 
     },
@@ -134,6 +135,7 @@ export default function App() {
           || window.location.pathname === '/register'
           || window.location.pathname === '/'
           || window.location.pathname === '/admin'
+          || window.location.pathname.startsWith('/book')
           ?
           <RouterProvider router={router} />
           :
